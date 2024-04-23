@@ -1,0 +1,121 @@
+﻿@page "/manage-product"
+@page "/manage-product/{Id:int}"
+@rendermode InteractiveAuto
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Add Medicine</div>
+                <div class="card-body">
+                    <EditForm Model="ProductModel" OnValidSubmit="HandleSave">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="form-group">
+                            <label class="form-label">Medicine Name</label>
+                            <InputText @bind-Value="ProductModel.MedicineName" class="form-control"></InputText>
+                            <ValidationMessage For="()=>ProductModel.MedicineName"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                        <label class="form-label">Date and Time</label>
+                       <InputDateTime Value="@ProductModel.DateTime" ValueChanged="@((DateTime value) => ProductModel.DateTime = value)" format="yyyy-MM-dd" class="form-control" />
+                        <ValidationMessage For="()=>ProductModel.DateTime"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Instruction</label>
+                            <InputText @bind-Value="ProductModel.Instruction" class="form-control"></InputText>
+                            <ValidationMessage For="()=>ProductModel.Instruction"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Each Dosage</label>
+                            <InputNumber @bind-Value="ProductModel.EachDosage" class="form-control"></InputNumber>
+                            <ValidationMessage For="()=>ProductModel.EachDosage"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Unit of Each Dosage</label>
+                            <InputText @bind-Value="ProductModel.UnitOfEachDosage" class="form-control"></InputText>
+                            <ValidationMessage For="()=>ProductModel.UnitOfEachDosage"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Did or Didn't Take Medicine</label>
+                            <InputCheckbox @bind-Value="ProductModel.DidOrDidntTakeMedicine"></InputCheckbox>
+                            <ValidationMessage For="()=>ProductModel.DidOrDidntTakeMedicine"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Symptom Description</label>
+                            <InputText @bind-Value="ProductModel.SymptomDescription" class="form-control"></InputText>
+                            <ValidationMessage For="()=>ProductModel.SymptomDescription"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Operator</label>
+                            <InputText @bind-Value="ProductModel.Operator" class="form-control"></InputText>
+                            <ValidationMessage For="()=>ProductModel.Operator"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Operation Time</label>
+                            <InputDate @bind-Value="ProductModel.OperationTime" class="form-control"></InputDate>
+                            <ValidationMessage For="()=>ProductModel.OperationTime"></ValidationMessage>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary"> Save</button>
+                    </EditForm>
+                </div>
+
+                <div class="card-footer">
+                    Id: @ReturnProduct.Id <br />
+                    Name:@ReturnProduct.MedicineName <br />
+                    Date: @ReturnProduct.DateTime
+                    Instruction: @ReturnProduct.Instruction
+                    EachDosage: @ReturnProduct.EachDosage
+                    UnitOfEachDosage: @ReturnProduct.UnitOfEachDosage
+                    DidOrDidntTakenMedicine: @ReturnProduct.DidOrDidntTakeMedicine
+                    SymptomDescription: @ReturnProduct.SymptomDescription
+                    Operator: @ReturnProduct.Operator
+                    OperationTime: @ReturnProduct.OperationTime
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    public Product ProductModel { get; set; } = new();
+    [Parameter] public int Id { get; set; }
+    public bool DidOrDidntTakeMedicine { get; set; }
+
+    private Product ReturnProduct = new();
+    private async Task HandleSave()
+    {
+        if (ProductModel.Id > 0)
+        {
+            ReturnProduct = await ProductService.UpdateProductAsync(ProductModel);
+            ProductModel = new();
+        }
+
+        else
+        {
+            ReturnProduct = await ProductService.AddProductAsync(ProductModel);
+            ProductModel = new();
+
+        }
+
+    }
+
+    private DateTime todayDate = DateTime.Today;
+
+    protected override void OnInitialized()
+    {
+        ProductModel.DateTime = todayDate;
+        ProductModel.OperationTime = todayDate;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id > 0)
+            ProductModel = await ProductService.GetProductByIdAsync(Id);
+    }
+}
+ 

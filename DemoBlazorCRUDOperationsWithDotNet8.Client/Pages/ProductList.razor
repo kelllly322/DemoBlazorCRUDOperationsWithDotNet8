@@ -1,0 +1,99 @@
+﻿@page "/Medicine Check List"
+@rendermode InteractiveAuto
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card">
+                    <div class="card-header"> <button class="btn btn-primary float-end" @onclick="NavigateToAddProductPage"> Add Medicine </button></div>
+                </div>
+                @if (Products.Count > 0)
+                {
+                    <div class="card-header">Medicine List
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product Id</th>
+                                    <th>Product MedicineName</th>
+                                    <th>Product DateTime</th>
+                                    <th>Instruction</th>
+                                    <th>Each Dosage</th>
+                                    <th>Unit of Each Dosage</th>
+                                    <th>Did or Didn't Take Medicine</th>
+                                    <th>Symptom Description</th>
+                                    <th>Operator</th>
+                                    <th>OperationTime</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Products)
+                                {
+                                    <tr>
+                                        <td>@product.Id</td>
+                                        <td>@product.MedicineName</td>
+                                        <td>@product.DateTime</td>
+                                        <td>@product.Instruction</td>
+                                        <td>@product.EachDosage</td>
+                                        <td>@product.UnitOfEachDosage</td>
+                                        <td>@product.DidOrDidntTakeMedicine</td>
+                                        <td>@product.SymptomDescription</td>
+                                        <td>@product.Operator</td>
+                                        <td>@product.OperationTime</td>
+                                        <td>
+                                            <div class="hstack gap-2">
+                                                <button class="btn  btn-info" @onclick="()=>Edit(product)"> Edit</button>
+                                                <button class="btn  btn-danger" @onclick="() => Delete(product.Id)"> Delete</button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info"> No medicine Available </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Product> Products { get; set; } = new();
+
+    private async Task LoadProducts()
+    {
+        var products = await ProductService.GetAllProductsAsync();
+        Products?.Clear();
+        if (Products is null) return;
+        foreach (var product in products)
+            Products.Add(product);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProducts();
+    }
+
+    private void NavigateToAddProductPage()
+    {
+        NavigationManager.NavigateTo("manage-product");
+    }
+
+    private void Edit(Product model)
+    {
+        NavigationManager.NavigateTo($"manage-product/{model.Id}");
+    }
+
+    private async Task Delete(int id)
+    {
+        var product = await ProductService.DeleteProductAsync(id);
+        await LoadProducts();
+    }
+}
