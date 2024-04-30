@@ -16,11 +16,6 @@
                             <ValidationMessage For="()=>ProductModel.MedicineName"></ValidationMessage>
                         </div>
                         <div class="form-group">
-                        <label class="form-label">Date and Time</label>
-                       <InputDateTime Value="@ProductModel.DateTime" ValueChanged="@((DateTime value) => ProductModel.DateTime = value)" format="yyyy-MM-dd" class="form-control" />
-                        <ValidationMessage For="()=>ProductModel.DateTime"></ValidationMessage>
-                        </div>
-                        <div class="form-group">
                             <label class="form-label">Instruction</label>
                             <InputText @bind-Value="ProductModel.Instruction" class="form-control"></InputText>
                             <ValidationMessage For="()=>ProductModel.Instruction"></ValidationMessage>
@@ -61,9 +56,8 @@
                 </div>
 
                 <div class="card-footer">
-                    Id: @ReturnProduct.Id <br />
+                    Id: @ReturnProduct.No <br />
                     Name:@ReturnProduct.MedicineName <br />
-                    Date: @ReturnProduct.DateTime
                     Instruction: @ReturnProduct.Instruction
                     EachDosage: @ReturnProduct.EachDosage
                     UnitOfEachDosage: @ReturnProduct.UnitOfEachDosage
@@ -89,7 +83,7 @@
     private Product ReturnProduct = new();
     private async Task HandleSave()
     {
-        if (ProductModel.Id > 0)
+        if (ProductModel.No > 0)
         {
             ReturnProduct = await ProductService.UpdateProductAsync(ProductModel);
             ProductModel = new();
@@ -104,13 +98,14 @@
 
     }
 
-    private DateTime todayDate = DateTime.Today;
+
+    private DateTime todayDate = DateTime.Now.Date;
 
     protected override void OnInitialized()
     {
-        ProductModel.DateTime = todayDate;
         ProductModel.OperationTime = todayDate;
     }
+
 
     protected override async Task OnParametersSetAsync()
     {

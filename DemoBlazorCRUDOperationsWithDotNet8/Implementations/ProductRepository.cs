@@ -47,7 +47,6 @@ namespace DemoBlazorCRUDOperationsWithDotNet8.Implementations
             var product = await appDbContext.Products.FirstOrDefaultAsync(_ => _.Id == model.Id);
             if (product is null) return null!;
             product.MedicineName = model.MedicineName;
-            product.DateTime = model.DateTime;
             await appDbContext.SaveChangesAsync();
             return await appDbContext.Products.FirstOrDefaultAsync(_ => _.Id == model.Id)!;
         }

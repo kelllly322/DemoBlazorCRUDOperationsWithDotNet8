@@ -1,10 +1,10 @@
-﻿@page "/Medicine Check List"
+﻿@page "/MedicineCheckList"
 @rendermode InteractiveAuto
 
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card" style="width: 70rem;">
                 <div class="card">
                     <div class="card-header"> <button class="btn btn-primary float-end" @onclick="NavigateToAddProductPage"> Add Medicine </button></div>
                 </div>
@@ -16,9 +16,9 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th>Product No</th>
                                     <th>Product Id</th>
                                     <th>Product MedicineName</th>
-                                    <th>Product DateTime</th>
                                     <th>Instruction</th>
                                     <th>Each Dosage</th>
                                     <th>Unit of Each Dosage</th>
@@ -32,9 +32,9 @@
                                 @foreach (var product in Products)
                                 {
                                     <tr>
+                                        <td>@product.No</td>
                                         <td>@product.Id</td>
                                         <td>@product.MedicineName</td>
-                                        <td>@product.DateTime</td>
                                         <td>@product.Instruction</td>
                                         <td>@product.EachDosage</td>
                                         <td>@product.UnitOfEachDosage</td>
@@ -91,9 +91,9 @@
         NavigationManager.NavigateTo($"manage-product/{model.Id}");
     }
 
-    private async Task Delete(int id)
+    private async Task Delete(int no)
     {
-        var product = await ProductService.DeleteProductAsync(id);
+        var product = await ProductService.DeleteProductAsync(no);
         await LoadProducts();
     }
 }
