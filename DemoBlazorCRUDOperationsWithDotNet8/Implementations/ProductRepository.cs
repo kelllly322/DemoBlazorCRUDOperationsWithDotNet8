@@ -5,7 +5,7 @@ using SharedLibrary.ProductRepositories;
 
 namespace DemoBlazorCRUDOperationsWithDotNet8.Implementations
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : IMedicineRepository
     {
         private readonly AppDbContext appDbContext;
         public ProductRepository(AppDbContext appDbContext)
@@ -13,7 +13,7 @@ namespace DemoBlazorCRUDOperationsWithDotNet8.Implementations
             this.appDbContext = appDbContext;
         }
 
-        public async Task<Product> AddProductAsync(Product model)
+        public async Task<MedicineCheck> AddMedicineAsync(MedicineCheck model)
         {
             if (model is null) return null!;
             var chk = await appDbContext.Products.Where(_ => _.MedicineName.ToLower().Equals(model.MedicineName.ToLower())).FirstOrDefaultAsync();
@@ -24,7 +24,7 @@ namespace DemoBlazorCRUDOperationsWithDotNet8.Implementations
             return newDataAdded;
         }
 
-        public async Task<Product> DeleteProductAsync(int productId)
+        public async Task<MedicineCheck> DeleteMedicineAsync(int productId)
         {
             var product = await appDbContext.Products.FirstOrDefaultAsync(_ => _.Id == productId);
             if (product is null) return null!;
@@ -33,16 +33,16 @@ namespace DemoBlazorCRUDOperationsWithDotNet8.Implementations
             return product;
         }
 
-        public async Task<List<Product>> GetAllProductsAsync() => await appDbContext.Products.ToListAsync();
+        public async Task<List<MedicineCheck>> GetAllMedicineAsync() => await appDbContext.Products.ToListAsync();
 
-        public async Task<Product> GetProductByIdAsync(int productId)
+        public async Task<MedicineCheck> GetMedicineByIdAsync(int productId)
         {
             var product = await appDbContext.Products.FirstOrDefaultAsync(_ => _.Id == productId);
             if (product is null) return null!;
             return product;
         }
 
-        public async Task<Product> UpdateProductAsync(Product model)
+        public async Task<MedicineCheck> UpdateMedicineAsync(MedicineCheck model)
         {
             var product = await appDbContext.Products.FirstOrDefaultAsync(_ => _.Id == model.Id);
             if (product is null) return null!;

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoBlazorCRUDOperationsWithDotNet8", "DemoBlazorCRUDOperationsWithDotNet8\DemoBlazorCRUDOperationsWithDotNet8.csproj", "{03F9E120-32BB-47B9-B7A5-7550EE07510F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoBlazorCRUDOperationsWithDotNet8", "DemoBlazorCRUDOperationsWithDotNet8\DemoBlazorCRUDOperationsWithDotNet8.csproj", "{03F9E120-32BB-47B9-B7A5-7550EE07510F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoBlazorCRUDOperationsWithDotNet8.Client", "DemoBlazorCRUDOperationsWithDotNet8.Client\DemoBlazorCRUDOperationsWithDotNet8.Client.csproj", "{39379F26-84FB-47E6-B729-D6AD1E1F885E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoBlazorCRUDOperationsWithDotNet8.Client", "DemoBlazorCRUDOperationsWithDotNet8.Client\DemoBlazorCRUDOperationsWithDotNet8.Client.csproj", "{39379F26-84FB-47E6-B729-D6AD1E1F885E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedLibrary", "..\SharedLibrary\SharedLibrary.csproj", "{FF96554A-D2F8-4A6A-A9D6-4FB0DBDDD286}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedLibrary", "..\SharedLibrary\SharedLibrary.csproj", "{FF96554A-D2F8-4A6A-A9D6-4FB0DBDDD286}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

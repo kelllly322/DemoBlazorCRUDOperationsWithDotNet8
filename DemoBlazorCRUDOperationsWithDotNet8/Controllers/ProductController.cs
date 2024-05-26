@@ -7,44 +7,44 @@ namespace DemoBlazorCRUDOperationsWithDotNet8.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductRepository productRepository;
-        public ProductController(IProductRepository productRepository)
+        private readonly IMedicineRepository medicineRepository;
+        public ProductController(IMedicineRepository medicineRepository)
         {
-            this.productRepository = productRepository;
+            this.medicineRepository = medicineRepository;
         }
 
-        [HttpGet("All-Products")]
-        public async Task<ActionResult<List<Product>>> GetAllProductAsync()
+        [HttpGet("All-Medicine")]
+        public async Task<ActionResult<List<MedicineCheck>>> GetAllMedicineAsync()
         {
-            var products = await productRepository.GetAllProductsAsync();
+            var products = await medicineRepository.GetAllMedicineAsync();
             return Ok(products);
         }
 
-        [HttpGet("Single-Product/{id}")]
-        public async Task<ActionResult<List<Product>>> GetSingleProductAsync(int id)
+        [HttpGet("Single-Medicine/{id}")]
+        public async Task<ActionResult<List<MedicineCheck>>> GetSingleMedicineAsync(int id)
         {
-            var product = await productRepository.GetProductByIdAsync(id);
+            var product = await medicineRepository.GetMedicineByIdAsync(id);
             return Ok(product);
         }
 
-        [HttpPost("Add-Product")]
-        public async Task<ActionResult<List<Product>>> AddProductAsync(Product model)
+        [HttpPost("Add-Medicine")]
+        public async Task<ActionResult<List<MedicineCheck>>> AddMedicineAsync(MedicineCheck model)
         {
-            var product = await productRepository.AddProductAsync(model);
+            var product = await medicineRepository.AddMedicineAsync(model);
             return Ok(product);
         }
 
-        [HttpPut("Update-Product")]
-        public async Task<ActionResult<List<Product>>> UpdateProductAsync(Product model)
+        [HttpPut("Update-Medicine")]
+        public async Task<ActionResult<List<MedicineCheck>>> UpdateProductAsync(MedicineCheck model)
         {
-            var product = await productRepository.UpdateProductAsync(model);
+            var product = await medicineRepository.UpdateMedicineAsync(model);
             return Ok(product);
         }
 
         [HttpDelete("Delete-Product/{id}")]
-        public async Task<ActionResult<List<Product>>> DeleteProductAsync(int id)
+        public async Task<ActionResult<List<MedicineCheck>>> DeleteProductAsync(int id)
         {
-            var product = await productRepository.DeleteProductAsync(id);
+            var product = await medicineRepository.DeleteMedicineAsync(id);
             return Ok(product);
         }
 

@@ -1,5 +1,5 @@
-﻿@page "/manage-product"
-@page "/manage-product/{Id:int}"
+﻿@page "/manage-medicine-check-list"
+@page "/manage-medicine-check-list/{Id:int}"
 @rendermode InteractiveAuto
 <div class="container">
     <div class="row">
@@ -56,15 +56,15 @@
                 </div>
 
                 <div class="card-footer">
-                    Id: @ReturnProduct.No <br />
-                    Name:@ReturnProduct.MedicineName <br />
-                    Instruction: @ReturnProduct.Instruction
-                    EachDosage: @ReturnProduct.EachDosage
-                    UnitOfEachDosage: @ReturnProduct.UnitOfEachDosage
-                    DidOrDidntTakenMedicine: @ReturnProduct.DidOrDidntTakeMedicine
-                    SymptomDescription: @ReturnProduct.SymptomDescription
-                    Operator: @ReturnProduct.Operator
-                    OperationTime: @ReturnProduct.OperationTime
+                        <span>Id: @ReturnProduct.Id</span>
+                        <span>Name: @ReturnProduct.MedicineName</span>
+                        <span>Instruction: @ReturnProduct.Instruction</span>
+                        <span>EachDosage: @ReturnProduct.EachDosage</span>
+                        <span>UnitOfEachDosage: @ReturnProduct.UnitOfEachDosage</span>
+                        <span>DidOrDidntTakenMedicine: @ReturnProduct.DidOrDidntTakeMedicine</span>
+                        <span>SymptomDescription: @ReturnProduct.SymptomDescription</span>
+                        <span>Operator: @ReturnProduct.Operator</span>
+                        <span>OperationTime: @ReturnProduct.OperationTime</span>
                 </div>
             </div>
 
@@ -76,22 +76,22 @@
 
 @code {
 
-    public Product ProductModel { get; set; } = new();
+    public MedicineCheck ProductModel { get; set; } = new();
     [Parameter] public int Id { get; set; }
     public bool DidOrDidntTakeMedicine { get; set; }
 
-    private Product ReturnProduct = new();
+    private MedicineCheck ReturnProduct = new();
     private async Task HandleSave()
     {
-        if (ProductModel.No > 0)
+        if (ProductModel.Id > 0)
         {
-            ReturnProduct = await ProductService.UpdateProductAsync(ProductModel);
+            ReturnProduct = await ProductService.UpdateMedicineAsync(ProductModel);
             ProductModel = new();
         }
 
         else
         {
-            ReturnProduct = await ProductService.AddProductAsync(ProductModel);
+            ReturnProduct = await ProductService.AddMedicineAsync(ProductModel);
             ProductModel = new();
 
         }
@@ -110,7 +110,7 @@
     protected override async Task OnParametersSetAsync()
     {
         if (Id > 0)
-            ProductModel = await ProductService.GetProductByIdAsync(Id);
+            ProductModel = await ProductService.GetMedicineByIdAsync(Id);
     }
 }
  

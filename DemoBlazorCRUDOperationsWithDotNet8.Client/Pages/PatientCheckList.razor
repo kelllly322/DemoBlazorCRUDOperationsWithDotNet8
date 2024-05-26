@@ -1,0 +1,76 @@
+﻿@page "/PatientCheckList"
+@rendermode InteractiveAuto
+
+<h3>@DateTime.Now.ToString("yyyy-MM-dd (dddd)")</h3>  <!-- 顯示當前日期和星期幾 -->
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card" style="width: 70rem;">
+                <div class="card">
+                    @if (PatientMedicineList.Count > 0)
+                    {
+                        <div class="card-header">
+                            Medicine List
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>圖片</th>
+                                        <th>Id</th>
+                                        <th>病歷號</th>
+                                        <th>藥物名稱</th>
+                                        <th>服法</th>
+                                        <th>服用劑量</th>
+                                        <th>服用劑量單位</th>
+                                        <th>已服用or未服用</th>
+                                        <th>症狀情況</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var medicine in medicineList) //<!-- 遍歷藥物清單中的每個藥物 -->
+                                    {
+                                        <div class="medicine-List">
+                                            <div class="medicine-info">
+                                                <img src="@medicine.ImageUrl" alt="@medicine.MedicineName" class="drug-image" /><!-- 顯示藥物圖片 -->
+                                                <div class="details">
+                                                    <h4>@medicine.MedicineName</h4> <!-- 顯示藥物名稱 -->
+                                                    <label for="timeInput">時間:</label>
+                                                    <input type="time" id="timeInput" @bind="medicine.Time" /><!-- 顯示當前時間 -->
+                                                    <p>劑量: @medicine.Dosage</p> <!-- 顯示藥物用量 -->
+                                                </div>
+                                            </div>
+                                            <div class="buttons">
+                                                <button class="btn-skip" id="btn-skip_@medicine.Id" onclick="changeButtonColor('btn-skip')">跳過</button>
+                                                <button class="btn-taken" id="btn-taken_@medicine.Id" onclick="changeButtonColor2('btn-taken')">吃藥</button>
+
+
+                                                <div class="reasons_dis" id="reasonsdiv_@medicine.Id">
+                                                    <h7>未吃藥原因: @medicine.Reason</h7>
+                                                    <label><input type="radio" name="reason_@medicine.Id" id="@medicine.Id" value="forgot">忘記吃藥</label>
+                                                    <label><input type="radio" name="reason_@medicine.Id" id="@medicine.Id" value="dontWant">不想吃藥</label>
+                                                    <label><input type="radio" name="reason_@medicine.Id" id="@medicine.Id" value="other">其他原因</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info"> No medicine Available </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<PatientMedicineList> PatientMedicineList { get; set; } = new();
+
+    List<PatientMedicineList> medicineList;
+}

@@ -18,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Wooo! Connection is not found"));
 });
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IMedicineRepository, ProductRepository>();
 
 builder.Services.AddScoped(http => new HttpClient
 {
