@@ -1,5 +1,7 @@
 ﻿@page "/PatientCheckList"
 @rendermode InteractiveAuto
+@inject IJSRuntime jsRuntime
+@inject NavigationManager NavigationManager
 
 <h3>@DateTime.Now.ToString("yyyy-MM-dd (dddd)")</h3>  <!-- 顯示當前日期和星期幾 -->
 <hr />
@@ -8,7 +10,7 @@
         <div class="col-md-8">
             <div class="card" style="width: 70rem;">
                 <div class="card">
-                    @if (PatientMedicineList.Count > 0)
+                    @if (medicineLists.Count > 0)
                     {
                         <div class="card-header">
                             Medicine List
@@ -29,7 +31,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var medicine in medicineList) //<!-- 遍歷藥物清單中的每個藥物 -->
+                                    @foreach (var medicine in medicinelist) //<!-- 遍歷藥物清單中的每個藥物 -->
                                     {
                                         <div class="medicine-List">
                                             <div class="medicine-info">
@@ -69,8 +71,82 @@
     </div>
 </div>
 
-@code {
-    private List<PatientMedicineList> PatientMedicineList { get; set; } = new();
 
-    List<PatientMedicineList> medicineList;
+@code {
+    List<MedicineList> medicineLists;
+    <!-- 建立藥物清單的變數 -->
+    protected override void OnInitialized() //<!-- 初始化方法 -->
+    {
+        // 初始化藥物清單（這裡是個範例）
+        medicineLists = new List<MedicineList> //<!-- 新增三個藥物到藥物清單 -->
+        {
+            new MedicineList { Id ="1",Name = "康肯", Dosage = "10mg", ImageUrl = "pill1.png" },
+            new MedicineList { Id ="2",Name = "普立妥", Dosage = "20mg", ImageUrl = "pill2.jpg" },
+            new MedicineList { Id ="3",Name = "得安穩", Dosage = "5mg", ImageUrl = "pill3.jpg" },
+            new MedicineList { Id ="4",Name = "得安穩", Dosage = "8mg", ImageUrl = "pill4.jpg" },
+            new MedicineList { Id ="5",Name = "好克寧", Dosage = "10mg", ImageUrl = "pill5.jpg" }
+        };
+    }
+
+    public class MedicineList //<!-- 藥物記錄的類別 -->
+    {
+        public string Name { get; set; }
+        <!-- 藥物名稱屬性 -->
+        public string Dosage { get; set; }
+        <!-- 藥物用量屬性 -->
+        public string ImageUrl { get; set; }
+        <!-- 藥物圖片URL屬性 -->
+        public DateTime Time { get; set; }
+        <!-- 藥物時間屬性 -->
+        public bool ShowReasons { get; set; } // Define the ShowReasons property
+        public String Reason { get; set; }
+        public List<string> SideEffects { get; set; } // 副作用清單屬性
+        public string SelectedReason { get; set; } // 用於儲存使用者選擇的原因
+        public String Id { get; set; }
+    }
+
+    public bool loggedIn;
+    void OnSkipClicked(MedicineList drug)
+    {
+        drug.ShowReasons = true;
+        jsRuntime.InvokeVoidAsync("changeButtonColor", "btn-skipped");
+        loggedIn = false;
+    }
+
+    void OnTakenClicked(MedicineList medicine)
+    {
+        medicine.ShowReasons = false;
+        jsRuntime.InvokeVoidAsync("changeButtonColor", "btn-taken");
+        if (medicine.Name == "普立妥")
+        {
+            ShowSideEffectsForm(medicine);
+        }
+        else
+        {
+            medicine.ShowReasons = false;
+            jsRuntime.InvokeVoidAsync("changeButtonColor", "btn-taken");
+        }
+    }
+
+
+    async Task ShowSideEffectsForm(DrugRecord drug)
+    {
+        // 使用 JavaScript 顯示填寫副作用的表單或彈出視窗
+        await jsRuntime.InvokeVoidAsync("showSideEffectsForm", drug.Name);
+
+        // 等待 JavaScript 調用完成並收集副作用資訊
+        drug.SideEffects = await jsRuntime.InvokeAsync<List<string>>("collectSideEffects");
+        drug.ShowReasons = false; // 關閉原因選擇
+
+        // 更改按鈕顏色
+        await jsRuntime.InvokeVoidAsync("changeButtonColor", "btn-taken");
+    }
+
+    void OnFinishClicked()
+    {
+        if (loggedIn)
+        {
+            NavigationManager.NavigateTo("/ finish"); // 登入成功後導航至首頁
+        }
+    }
 }

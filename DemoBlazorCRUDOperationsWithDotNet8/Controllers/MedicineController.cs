@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SharedLibrary.Models;
-using SharedLibrary.ProductRepositories;
+using SharedLibrary.MedicineRepositories;
 namespace DemoBlazorCRUDOperationsWithDotNet8.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class MedicineController : ControllerBase
     {
         private readonly IMedicineRepository medicineRepository;
-        public ProductController(IMedicineRepository medicineRepository)
+        public MedicineController(IMedicineRepository medicineRepository)
         {
             this.medicineRepository = medicineRepository;
         }
@@ -16,36 +16,36 @@ namespace DemoBlazorCRUDOperationsWithDotNet8.Controllers
         [HttpGet("All-Medicine")]
         public async Task<ActionResult<List<MedicineCheck>>> GetAllMedicineAsync()
         {
-            var products = await medicineRepository.GetAllMedicineAsync();
-            return Ok(products);
+            var medicinecheck = await medicineRepository.GetAllMedicineAsync();
+            return Ok(medicinecheck);
         }
 
         [HttpGet("Single-Medicine/{id}")]
         public async Task<ActionResult<List<MedicineCheck>>> GetSingleMedicineAsync(int id)
         {
-            var product = await medicineRepository.GetMedicineByIdAsync(id);
-            return Ok(product);
+            var medicinecheck = await medicineRepository.GetMedicineByIdAsync(id);
+            return Ok(medicinecheck);
         }
 
         [HttpPost("Add-Medicine")]
         public async Task<ActionResult<List<MedicineCheck>>> AddMedicineAsync(MedicineCheck model)
         {
-            var product = await medicineRepository.AddMedicineAsync(model);
-            return Ok(product);
+            var medicinecheck = await medicineRepository.AddMedicineAsync(model);
+            return Ok(medicinecheck);
         }
 
         [HttpPut("Update-Medicine")]
         public async Task<ActionResult<List<MedicineCheck>>> UpdateProductAsync(MedicineCheck model)
         {
-            var product = await medicineRepository.UpdateMedicineAsync(model);
-            return Ok(product);
+            var medicinecheck = await medicineRepository.UpdateMedicineAsync(model);
+            return Ok(medicinecheck);
         }
 
-        [HttpDelete("Delete-Product/{id}")]
+        [HttpDelete("Delete-Medicine/{id}")]
         public async Task<ActionResult<List<MedicineCheck>>> DeleteProductAsync(int id)
         {
-            var product = await medicineRepository.DeleteMedicineAsync(id);
-            return Ok(product);
+            var medicinecheck = await medicineRepository.DeleteMedicineAsync(id);
+            return Ok(medicinecheck);
         }
 
     }

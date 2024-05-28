@@ -36,8 +36,6 @@
                                         <td>@medicinecheck.MedicineName</td>
                                         <td>@medicinecheck.Instruction</td>
                                         <td>@medicinecheck.EachDosage</td>
-                                        <td>@medicinecheck.UnitOfEachDosage</td>
-                                        <td>@medicinecheck.DidOrDidntTakeMedicine</td>
                                         <td>@medicinecheck.SymptomDescription</td>
                                         <td>@medicinecheck.Operator</td>
                                         <td>@medicinecheck.OperationTime</td>
@@ -68,7 +66,7 @@
 
     private async Task LoadMedicine()
     {
-        var medicinechecks = await ProductService.GetAllMedicineAsync();
+        var medicinechecks = await MedicineService.GetAllMedicineAsync();
         MedicineChecks?.Clear();
         if (MedicineChecks is null) return;
         foreach (var medicinecheck in medicinechecks)
@@ -92,7 +90,7 @@
 
     private async Task Delete(int no)
     {
-        var medicinecheck = await ProductService.DeleteMedicineAsync(no);
+        var medicinecheck = await MedicineService.DeleteMedicineAsync(no);
         await LoadMedicine();
     }
 }

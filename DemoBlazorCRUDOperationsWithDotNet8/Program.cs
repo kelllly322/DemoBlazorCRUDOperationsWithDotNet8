@@ -3,7 +3,7 @@ using DemoBlazorCRUDOperationsWithDotNet8.Components;
 using DemoBlazorCRUDOperationsWithDotNet8.Data;
 using DemoBlazorCRUDOperationsWithDotNet8.Implementations;
 using Microsoft.EntityFrameworkCore;
-using SharedLibrary.ProductRepositories;
+using SharedLibrary.MedicineRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Wooo! Connection is not found"));
 });
-builder.Services.AddScoped<IMedicineRepository, ProductRepository>();
+builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
 
 builder.Services.AddScoped(http => new HttpClient
 {

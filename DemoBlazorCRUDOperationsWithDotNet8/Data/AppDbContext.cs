@@ -9,6 +9,6 @@ namespace DemoBlazorCRUDOperationsWithDotNet8.Data
         { 
         }
 
-        public DbSet<MedicineCheck> Products { get; set; }
+        public DbSet<MedicineCheck> MedicineCheck { get; set; }
     }
 }
